@@ -1,0 +1,471 @@
+/* ============================================
+   Ретро-ТВ Лендинг — Основные стили
+   Цветовая палитра: пастельные тона (мятный, кремовый, приглушённый оранжевый)
+   ============================================ */
+
+/* --- CSS Переменные --- */
+:root {
+    --color-mint: #b8e8d0;
+    --color-mint-dark: #8fcfb8;
+    --color-cream: #f5f0e6;
+    --color-orange-muted: #e09f7d;
+    --color-orange-dark: #c4855f;
+    --color-brown-retro: #8b6f47;
+    --color-text-dark: #4a4a4a;
+    --color-text-light: #6b6b6b;
+    --color-shadow: rgba(0, 0, 0, 0.15);
+    --color-overlay: rgba(139, 111, 71, 0.1);
+    
+    --font-main: 'Courier New', Courier, monospace;
+    --font-display: Georgia, serif;
+    
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.4s ease;
+    --transition-slow: 0.8s ease;
+}
+
+/* --- Сброс и базовые стили --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-cream);
+    color: var(--color-text-dark);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- Контейнер страницы --- */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Основной контейнер с фоном --- */
+.backstage-container {
+    position: relative;
+    flex: 1;
+    display: block; /* Изменено с flex на block для правильного позиционирования */
+    padding: 0;
+    background-color: var(--color-cream);
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.backstage-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* Эффект лёгкой состаренности */
+    filter: sepia(10%) contrast(95%) brightness(98%);
+}
+
+/* --- Контейнер для интерактивных областей (imgmap) --- */
+.imgmap_css_container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Чтобы клики проходили сквозь контейнер */
+    z-index: 10;
+}
+
+/* --- Интерактивные области --- */
+.interactive-area {
+    position: absolute;
+    pointer-events: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: filter var(--transition-fast), transform var(--transition-fast);
+    z-index: 10;
+    text-decoration: none;
+}
+
+.interactive-area em {
+    display: none; /* Скрываем пустой em из imgmap */
+}
+
+.interactive-area:hover {
+    filter: brightness(1.1);
+    transform: scale(1.02);
+}
+
+.interactive-area:active {
+    transform: scale(0.98);
+}
+
+.interactive-area img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* --- Область телевизора --- */
+.area-tv {
+    /* Позиционирование будет задано через JS в процентах */
+    z-index: 20; /* Телевизор выше остальных элементов */
+}
+
+/* --- Область игрушки --- */
+.area-toy {
+    /* Позиционирование будет задано через JS в процентах */
+    z-index: 15;
+}
+
+.toy-image {
+    transition: opacity var(--transition-fast);
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* --- Статичные элементы (джойстик, картридж, консоль) --- */
+.static-item {
+    /* Без анимации */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* --- Телевизор --- */
+.tv-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tv-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* Экран телевизора для видео */
+.tv-screen {
+    position: absolute;
+    /* Расчёт на основе tv.png (767×632) - подгоняем под чёрную область экрана */
+    top: 12%;     /* Чуть выше для лучшей центровки */
+    left: 12%;    /* Сдвигаем для центровки */
+    width: 62%;   /* Увеличиваем ширину */
+    height: 58%;  /* Увеличиваем высоту */
+    background-color: #1a1a1a;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5; /* Экран внутри телевизора */
+    /* Добавляем скругление для эффекта старого ТВ */
+    border-radius: 10%;
+}
+
+.tv-screen iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.tv-screen-placeholder {
+    color: #888;
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 20px;
+    font-family: var(--font-main);
+    line-height: 1.8;
+}
+
+/* Сообщение на экране телевизора */
+.tv-message {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 15px;
+}
+
+.tv-message-title {
+    color: #e0e0e0;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.tv-message-subtitle {
+    color: #aaa;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.tv-message-hint {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hint-item {
+    color: #ccc;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hint-red {
+    color: #ff6b6b;
+    font-size: 1rem;
+}
+
+.hint-blue {
+    color: #4dabf7;
+    font-size: 1rem;
+}
+
+.hint-item strong {
+    color: #fff;
+    font-weight: bold;
+}
+
+/* --- Кнопки телевизора --- */
+.tv-btn {
+    position: absolute;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 30; /* Кнопки поверх всего */
+    transition: filter var(--transition-fast);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Transform для центрирования задаётся в JS */
+}
+
+.tv-btn:hover {
+    filter: brightness(1.15);
+}
+
+.tv-btn:active {
+    filter: brightness(0.9);
+}
+
+.tv-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.tv-btn span {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Позиционирование кнопок — через JS функцию positionTVButtons() */
+/* Точные координаты из карты: tv.png = 767×632 */
+/* Кнопки центрируются через transform: translate(-50%, -50%) */
+.tv-btn-youtube,
+.tv-btn-vk,
+.tv-btn-youtube-alt,
+.tv-btn-youtube-alt2 {
+    /* Позиционирование задаётся в JS */
+}
+
+/* --- Футер --- */
+.page-footer {
+    background: linear-gradient(180deg, var(--color-mint) 0%, var(--color-cream) 100%);
+    border-top: 2px solid var(--color-brown-retro);
+    padding: 20px 30px;
+    box-shadow: 0 -4px 10px var(--color-shadow);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-dark);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: all var(--transition-fast);
+    border: 1px solid var(--color-mint-dark);
+}
+
+.footer-link:hover {
+    background-color: var(--color-mint);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--color-shadow);
+}
+
+.footer-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.footer-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.footer-btn {
+    display: inline-block;
+    padding: 10px 24px;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 25px;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.btn-payment {
+    background-color: var(--color-orange-muted);
+    color: var(--color-cream);
+    border-color: var(--color-orange-dark);
+}
+
+.btn-payment:hover {
+    background-color: var(--color-orange-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(224, 159, 125, 0.4);
+}
+
+.btn-terms {
+    background-color: transparent;
+    color: var(--color-text-dark);
+    border-color: var(--color-brown-retro);
+}
+
+.btn-terms:hover {
+    background-color: var(--color-brown-retro);
+    color: var(--color-cream);
+    transform: translateY(-2px);
+}
+
+/* --- Адаптивность (Mobile First) --- */
+@media (max-width: 768px) {
+    .backstage-container {
+        padding: 10px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .footer-links {
+        justify-content: center;
+    }
+    
+    .footer-buttons {
+        justify-content: center;
+    }
+    
+    .footer-btn {
+        padding: 8px 20px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .footer-link {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .footer-icon {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* --- Эффект старого телевизора (опционально) --- */
+@keyframes tv-flicker {
+    0%, 100% { opacity: 1; }
+    5% { opacity: 0.95; }
+    10% { opacity: 1; }
+    15% { opacity: 0.98; }
+    20% { opacity: 1; }
+}
+
+.tv-screen.active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%,
+        rgba(0, 0, 0, 0.1) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    animation: tv-flicker 0.3s infinite;
+}
+
+/* --- Виньетка для ретро-эффекта --- */
+.backstage-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 60%,
+        rgba(0, 0, 0, 0.1) 100%
+    );
+    pointer-events: none;
+}
