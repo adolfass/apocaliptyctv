@@ -49,6 +49,7 @@
         },
         
         // Координаты областей в пикселях (из разметки imgmap)
+        // Корректировка: картриджи +100px вверх, джойстик +20px вверх
         areas: {
             tv: {
                 top: 185,
@@ -63,19 +64,19 @@
                 height: 132
             },
             joystick: {
-                top: 627,
+                top: 607,   // Было 627, подняли на 20px вверх
                 left: 270,
                 width: 86,
                 height: 80
             },
             cartridge: {
-                top: 599,
+                top: 499,   // Было 599, подняли на 100px вверх
                 left: 834,
                 width: 132,
                 height: 104
             },
             console: {
-                top: 594,
+                top: 424,   // Было 374, опустили на 50px вниз
                 left: 490,
                 width: 196,
                 height: 72
@@ -181,6 +182,7 @@
                 element.style.left = config.leftPercent + '%';
                 element.style.width = config.widthPercent + '%';
                 element.style.height = config.heightPercent + '%';
+                console.log(`📍 ${element.dataset.area}: top=${config.topPercent.toFixed(2)}%, left=${config.leftPercent.toFixed(2)}%`);
             }
         });
     }
@@ -196,7 +198,10 @@
                 <img src="source/tv.png" alt="Ретро-телевизор" class="tv-image">
                 
                 <!-- Экран для видео -->
-                <div class="tv-screen" id="tvScreen">
+                <div class="tv-screen tv-loading" id="tvScreen">
+                    <!-- Эффект шума (золотая рябь) -->
+                    <div class="tv-static"></div>
+                    <!-- Приветственное сообщение -->
                     <div class="tv-screen-placeholder">
                         <div class="tv-message">
                             <p class="tv-message-title">📺 Выберите удобную Вам платформу</p>
@@ -234,6 +239,14 @@
         
         // Позиционируем кнопки после рендеринга
         positionTVButtons();
+        
+        // Запускаем анимацию загрузки ТВ (3 секунды шума перед показом сообщения)
+        setTimeout(() => {
+            if (elements.tvScreen) {
+                elements.tvScreen.classList.remove('tv-loading');
+                elements.tvScreen.classList.add('tv-loaded');
+            }
+        }, 3000);
     }
 
     /**
@@ -296,10 +309,8 @@
             elements.areaToy.addEventListener('click', handleToyClick);
         }
         
-        // Обработчики для статичных областей (preventDefault)
+        // Обработчики для статичных областей
         const staticAreas = [
-            elements.areaJoystick,
-            elements.areaCartridge,
             elements.areaConsole
         ];
         
@@ -308,6 +319,11 @@
                 area.addEventListener('click', handleStaticAreaClick);
             }
         });
+        
+        // Обработчик для картриджа (портфолио)
+        if (elements.areaCartridge) {
+            elements.areaCartridge.addEventListener('click', handlePortfolioClick);
+        }
         
         // Пересчёт при изменении размера окна
         window.addEventListener('resize', debounce(() => {
@@ -325,6 +341,15 @@
                 positionAreas();
             });
         }
+    }
+
+    /**
+     * Обработка клика по портфолио (картридж)
+     */
+    function handlePortfolioClick(event) {
+        event.preventDefault();
+        // Переход на страницу портфолио
+        window.location.href = 'portfolio.html';
     }
 
     /**

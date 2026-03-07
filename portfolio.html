@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио заказов | Ретро-ТВ</title>
+    <link rel="icon" type="image/webp" href="favicon.webp">
+    <link rel="stylesheet" href="portfolio-styles.css">
+</head>
+<body>
+    <div class="portfolio-container">
+        <!-- Кнопка "Назад" -->
+        <a href="index.html" class="back-button" title="Вернуться на главную">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>На главную</span>
+        </a>
+        
+        <!-- Галерея работ (2x2, каждая 25% экрана) -->
+        <div class="portfolio-grid">
+            <!-- Работа 1: GoldTarot -->
+            <a href="https://www.goldtarot.ru" target="_blank" rel="noopener" class="portfolio-item">
+                <div class="item-overlay">
+                    <div class="item-info">
+                        <h3 class="item-title">GoldTarot</h3>
+                        <p class="item-desc">Сайт таро-консультаций</p>
+                        <span class="item-link">goldtarot.ru →</span>
+                    </div>
+                </div>
+                <iframe 
+                    src="https://www.goldtarot.ru" 
+                    title="GoldTarot"
+                    loading="lazy"
+                    sandbox="allow-same-origin"
+                ></iframe>
+            </a>
+            
+            <!-- Работа 2: Заглушка -->
+            <a href="#" class="portfolio-item placeholder">
+                <div class="item-overlay">
+                    <div class="item-info">
+                        <h3 class="item-title">Проект 2</h3>
+                        <p class="item-desc">Скоро будет добавлено</p>
+                    </div>
+                </div>
+                <div class="item-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <path d="M21 15l-5-5L5 21"/>
+                    </svg>
+                </div>
+            </a>
+            
+            <!-- Работа 3: Заглушка -->
+            <a href="#" class="portfolio-item placeholder">
+                <div class="item-overlay">
+                    <div class="item-info">
+                        <h3 class="item-title">Проект 3</h3>
+                        <p class="item-desc">Скоро будет добавлено</p>
+                    </div>
+                </div>
+                <div class="item-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <path d="M21 15l-5-5L5 21"/>
+                    </svg>
+                </div>
+            </a>
+            
+            <!-- Работа 4: Заглушка -->
+            <a href="#" class="portfolio-item placeholder">
+                <div class="item-overlay">
+                    <div class="item-info">
+                        <h3 class="item-title">Проект 4</h3>
+                        <p class="item-desc">Скоро будет добавлено</p>
+                    </div>
+                </div>
+                <div class="item-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <path d="M21 15l-5-5L5 21"/>
+                    </svg>
+                </div>
+            </a>
+        </div>
+        
+        <!-- Футер -->
+        <footer class="portfolio-footer">
+            <p>&copy; 2026 Ретро-ТВ Портфолио</p>
+        </footer>
+    </div>
+    
+    <script src="portfolio-scripts.js"></script>
+</body>
+</html>
