@@ -621,3 +621,20 @@ body {
     );
     pointer-events: none;
 }
+
+/* АНИМАЦИЯ ИГРУШКИ */
+@keyframes toy-spiral {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(10px, -10px) rotate(90deg); }
+    50% { transform: translate(20px, -20px) rotate(180deg); }
+    75% { transform: translate(25px, -25px) rotate(270deg); }
+    100% { transform: translate(30px, -30px) rotate(360deg); }
+}
+
+@keyframes toy-return {
+    0% { transform: translate(30px, -30px) rotate(360deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.toy-spiral { animation: toy-spiral 1.5s ease-out forwards; }
+.toy-return { animation: toy-return 1s ease-in forwards; }

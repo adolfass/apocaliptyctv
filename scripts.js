@@ -264,7 +264,7 @@
         // 🔵 КНОПКА 4: VK (нижняя синяя) — ГОТОВА — случайное видео
         // 5-я кнопка удалена
         const buttonCoords = {
-            btnYoutube: { x: 679, y: 320, offsetX: -53, offsetY: 0 },
+            btnYoutube: { x: 680, y: 320, offsetX: -53, offsetY: 0 },
             btnVk: { x: 707, y: 321, offsetX: -56, offsetY: -1 },
             btnYoutubeAlt: { x: 484, y: 519, offsetX: -16, offsetY: 0 },
             btnYoutubeAlt2: { x: 484, y: 549, offsetX: -16, offsetY: 0 }
