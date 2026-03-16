@@ -19,20 +19,31 @@
         // Плейсхолдеры для видео
         // Для случайных видео можно использовать плейлисты или конкретные видео ID
         videoEmbeds: {
-            youtube: 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0',
-            vk: 'https://vk.com/video_ext.php?oid=-123456789&id=987654321&autoplay=1'
+            rutube: 'https://rutube.ru/play/embed/b55abbdf26b45e3cb0a7ebf8e8236bc0?autoplay=1',
+            vk: 'https://vk.com/video_ext.php?oid=-236702596&id=456239017&autoplay=1'
         },
-        
-        // Списки видео ID для случайного выбора (заполнить позже)
+
+        // Списки видео ID для случайного выбора по категориям
         randomVideos: {
-            youtube: [
-                'dQw4w9WgXcQ',  // Rick Astley
-                '9bZkp7q19f0',  // Gangnam Style
-                'kJQP7kiw5Fk'   // Despacito
+            // 🔴 Природа, релаксация, музыка
+            nature: [
+                'Lx8t0N6sCao',  // Красивые места планеты
+                'eKFTSSKCzWA',  // Природа и музыка
+                'UqR9qJqS0hE',  // Релаксация 4K
+                'tO01O-MjgYU',  // Лес и дождь
+                '1ZYbU82GVz4',  // Океан релакс
+                'n_Dv4JccfEA',   // Горы и музыка
+                'GpKnL08a8a4'   // Закат релаксация
             ],
-            vk: [
-                '-123456789_987654321',
-                '-123456789_123456789'
+            // 🔵 Ядерная тематика, ИИ, выживание
+            nuclear_ai_survival: [
+                'dQw4w9WgXcQ',  // Пропаганда/ИИ (заменить на актуальные)
+                '9bZkp7q19f0',  // Искусственный интеллект
+                'kJQP7kiw5Fk',  // Выживание в природе
+                'hY7M5s_W0Zc',  // Ядерная тема
+                'ZZ5LpwO-An4',  // ИИ документалка
+                'L_jWHffIx5E',  // Выживание леса
+                'fJ9rUzIMcZQ'   // Постапокалипсис
             ]
         },
         
@@ -119,6 +130,7 @@
         calculateAreaPercentages();
         renderTV();
         setupEventListeners();
+        setupModalListeners();
         positionAreas();
         console.log('📺 Ретро-ТВ Лендинг инициализирован');
     }
@@ -207,8 +219,8 @@
                             <p class="tv-message-title">📺 Выберите удобную Вам платформу</p>
                             <p class="tv-message-subtitle">для просмотра &rarr; кнопки справа</p>
                             <div class="tv-message-hint">
-                                <span class="hint-item"><span class="hint-red">🔴</span> Красная кнопка — <strong>YouTube</strong></span>
-                                <span class="hint-item"><span class="hint-blue">🔵</span> Синяя кнопка — <strong>VK Video</strong></span>
+                                <span class="hint-item"><span class="hint-red">🔴</span> Верхняя кнопка — <strong>RuTube</strong></span>
+                                <span class="hint-item"><span class="hint-blue">🔵</span> Верхняя кнопка — <strong>VK Video</strong></span>
                             </div>
                         </div>
                     </div>
@@ -216,18 +228,18 @@
                 
                 <!-- Интерактивные кнопки (позиционируются через JS) -->
                 <!-- Верхние кнопки — выбор платформы -->
-                <button class="tv-btn tv-btn-youtube" data-action="youtube" title="YouTube" id="btnYoutube">
-                    <img src="source/redbutton_2.png" alt="YouTube">
+                <button class="tv-btn tv-btn-rutube" data-action="rutube" title="RuTube" id="btnRutube">
+                    <img src="source/redbutton_2.png" alt="RuTube">
                 </button>
                 <button class="tv-btn tv-btn-vk" data-action="vk" title="VK Video" id="btnVk">
                     <img src="source/bluebutton_2.png" alt="VK Video">
                 </button>
-                <!-- Нижние кнопки — случайное видео -->
-                <button class="tv-btn tv-btn-youtube-alt" data-action="youtube-random" title="Случайное YouTube" id="btnYoutubeAlt">
-                    <img src="source/redbutton_2.png" alt="YouTube">
+                <!-- Нижние кнопки — случайное видео по темам -->
+                <button class="tv-btn tv-btn-nature" data-action="nature-random" title="Природа и релаксация" id="btnNature">
+                    <img src="source/redbutton_2.png" alt="Природа">
                 </button>
-                <button class="tv-btn tv-btn-youtube-alt2" data-action="vk-random" title="Случайное VK Video" id="btnYoutubeAlt2">
-                    <img src="source/bluebutton_2.png" alt="VK Video">
+                <button class="tv-btn tv-btn-nuclear" data-action="nuclear-random" title="Ядерная тема, ИИ, выживание" id="btnNuclear">
+                    <img src="source/bluebutton_2.png" alt="Ядерная тема">
                 </button>
             </div>
         `;
@@ -258,21 +270,22 @@
         const tvImage = elements.areaTV.querySelector('.tv-image');
         if (!tvImage) return;
 
-        // 🔴 КНОПКА 1: YouTube (верхняя красная) — ГОТОВА
+        // 🔴 КНОПКА 1: RuTube (верхняя красная) — ГОТОВА
         // 🔵 КНОПКА 2: VK (верхняя синяя) — ГОТОВА
-        // 🔴 КНОПКА 3: YouTube (нижняя красная) — ГОТОВА — случайное видео
-        // 🔵 КНОПКА 4: VK (нижняя синяя) — ГОТОВА — случайное видео
+        // 🔴 КНОПКА 3: Природа (нижняя красная) — ГОТОВА — случайное видео
+        // 🔵 КНОПКА 4: Ядерная/ИИ (нижняя синяя) — ГОТОВА — случайное видео
         // 5-я кнопка удалена
         const buttonCoords = {
-            btnYoutube: { x: 680, y: 320, offsetX: -53, offsetY: 0 },
-            btnVk: { x: 707, y: 321, offsetX: -56, offsetY: -1 },
-            btnYoutubeAlt: { x: 484, y: 519, offsetX: -16, offsetY: 0 },
-            btnYoutubeAlt2: { x: 484, y: 549, offsetX: -16, offsetY: 0 }
+            btnRutube: { x: 680, y: 320, offsetX: -52, offsetY: 0 },
+            btnVk: { x: 707, y: 321, offsetX: -57, offsetY: -1 },
+            btnNature: { x: 484, y: 519, offsetX: -17, offsetY: 0 },
+            btnNuclear: { x: 484, y: 549, offsetX: -17, offsetY: 0 }
         };
 
         const tvWidth = 767;
         const tvHeight = 632;
-        const buttonSize = 26;
+        // Размер кнопок: 27px для десктопа, 26px для мобильных
+        const buttonSize = window.innerWidth > 768 ? 27 : 26;
 
         for (const [btnId, coords] of Object.entries(buttonCoords)) {
             const btn = document.getElementById(btnId);
@@ -366,77 +379,77 @@
         event.stopPropagation();
         
         switch (action) {
-            case 'youtube':
-                switchVideo('youtube');
+            case 'rutube':
+                switchVideo('rutube');
                 break;
             case 'vk':
                 switchVideo('vk');
                 break;
-            case 'youtube-random':
-                switchVideo('youtube', true); // true = случайное видео
+            case 'nature-random':
+                switchVideo('nature');
                 break;
-            case 'vk-random':
-                switchVideo('vk', true); // true = случайное видео
+            case 'nuclear-random':
+                switchVideo('nuclear_ai_survival');
                 break;
         }
     }
 
     /**
      * Переключение видео
-     * @param {string} platform - 'youtube' или 'vk'
-     * @param {boolean} isRandom - true для случайного видео
+     * @param {string} platform - 'rutube', 'vk', 'nature', 'nuclear_ai_survival'
      */
-    function switchVideo(platform, isRandom = false) {
+    function switchVideo(platform) {
         if (!elements.tvScreen) return;
-        
+
         let embedUrl;
+
+        // Проверяем, есть ли список случайных видео для этой категории
+        const randomList = CONFIG.randomVideos[platform];
         
-        if (isRandom) {
+        if (randomList && randomList.length > 0) {
             // Случайное видео из списка
-            const randomList = CONFIG.randomVideos[platform];
-            if (randomList && randomList.length > 0) {
-                const randomId = randomList[Math.floor(Math.random() * randomList.length)];
-                embedUrl = buildEmbedUrl(platform, randomId);
-            } else {
-                embedUrl = CONFIG.videoEmbeds[platform];
-            }
+            const randomId = randomList[Math.floor(Math.random() * randomList.length)];
+            embedUrl = buildEmbedUrl(platform, randomId);
+            state.isRandom = true;
         } else {
             // Обычное видео (основное)
             embedUrl = CONFIG.videoEmbeds[platform];
+            state.isRandom = false;
         }
-        
+
         if (!embedUrl) {
             console.error('❌ Платформа не найдена:', platform);
             return;
         }
-        
+
         state.currentPlatform = platform;
         state.isVideoLoaded = true;
-        state.isRandom = isRandom;
-        
+
         // Создаём iframe с ленивой загрузкой
         const iframe = document.createElement('iframe');
         iframe.src = embedUrl;
         iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
         iframe.setAttribute('allowfullscreen', '');
-        iframe.title = platform === 'youtube' ? 'YouTube Video' : 'VK Video';
-        
+        iframe.title = 'Video';
+
         // Очищаем экран и добавляем iframe
         elements.tvScreen.innerHTML = '';
         elements.tvScreen.appendChild(iframe);
         elements.tvScreen.classList.add('active');
-        
-        console.log('🎬 Видео переключено на:', platform, isRandom ? '(случайное)' : '(основное)');
+
+        console.log('🎬 Видео переключено на:', platform, state.isRandom ? '(случайное)' : '(основное)');
     }
 
     /**
      * Построение URL для встраивания видео
      */
     function buildEmbedUrl(platform, videoId) {
-        if (platform === 'youtube') {
+        if (platform === 'youtube' || platform === 'nature' || platform === 'nuclear_ai_survival') {
             return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0`;
         } else if (platform === 'vk') {
             return `https://vk.com/video_ext.php?oid=${videoId}&autoplay=1`;
+        } else if (platform === 'rutube') {
+            return `https://rutube.ru/play/embed/${videoId}?autoplay=1`;
         }
         return '';
     }
@@ -548,7 +561,7 @@
     // ============================================
     // УТИЛИТЫ
     // ============================================
-    
+
     /**
      * Debounce функция
      */
@@ -562,6 +575,71 @@
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
         };
+    }
+
+    // ============================================
+    // МОДАЛЬНОЕ ОКНО "УСЛОВИЯ"
+    // ============================================
+
+    /**
+     * Открытие модального окна
+     */
+    function openModal() {
+        const modal = document.getElementById('termsModal');
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Блокируем прокрутку фона
+            console.log('📋 Модальное окно открыто');
+        }
+    }
+
+    /**
+     * Закрытие модального окна
+     */
+    function closeModal() {
+        const modal = document.getElementById('termsModal');
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Возвращаем прокрутку
+            console.log('📋 Модальное окно закрыто');
+        }
+    }
+
+    /**
+     * Настройка обработчиков модального окна
+     */
+    function setupModalListeners() {
+        // Кнопка "Условия" в футере
+        const termsBtn = document.querySelector('.btn-terms');
+        if (termsBtn) {
+            termsBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal();
+            });
+        }
+
+        // Кнопка закрытия
+        const closeBtn = document.getElementById('modalClose');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+
+        // Закрытие по клику вне окна
+        const modalOverlay = document.getElementById('termsModal');
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+        }
+
+        // Закрытие по Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
     }
 
     // ============================================

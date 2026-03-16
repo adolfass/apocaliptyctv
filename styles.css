@@ -369,28 +369,30 @@ body {
 .tv-message-hint {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     margin-top: 10px;
     padding-top: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* Основной шрифт подсказок — крупный для десктопов */
 .hint-item {
     color: #ccc;
-    font-size: 0.8rem;
+    font-size: 1.375rem;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    line-height: 1.5;
 }
 
 .hint-red {
     color: #ff6b6b;
-    font-size: 1rem;
+    font-size: 1.625rem;
 }
 
 .hint-blue {
     color: #4dabf7;
-    font-size: 1rem;
+    font-size: 1.625rem;
 }
 
 .hint-item strong {
@@ -569,15 +571,56 @@ body {
     html {
         font-size: 14px;
     }
-    
+
     .footer-link {
         padding: 6px 12px;
         font-size: 0.8rem;
     }
-    
+
     .footer-icon {
         width: 16px;
         height: 16px;
+    }
+
+    /* Адаптивный шрифт подсказок для телефонов */
+    .hint-item {
+        font-size: 0.85rem;
+        gap: 6px;
+    }
+
+    .hint-red,
+    .hint-blue {
+        font-size: 1rem;
+    }
+
+    .tv-message-title {
+        font-size: 0.9rem;
+    }
+
+    .tv-message-subtitle {
+        font-size: 0.75rem;
+    }
+}
+
+/* --- Планшеты (768px и меньше) --- */
+@media (max-width: 768px) {
+    /* Адаптивный шрифт подсказок для планшетов */
+    .hint-item {
+        font-size: 0.95rem;
+        gap: 8px;
+    }
+
+    .hint-red,
+    .hint-blue {
+        font-size: 1.1rem;
+    }
+
+    .tv-message-title {
+        font-size: 1rem;
+    }
+
+    .tv-message-subtitle {
+        font-size: 0.8rem;
     }
 }
 
@@ -638,3 +681,199 @@ body {
 
 .toy-spiral { animation: toy-spiral 1.5s ease-out forwards; }
 .toy-return { animation: toy-return 1s ease-in forwards; }
+
+/* ============================================
+   МОДАЛЬНОЕ ОКНО "УСЛОВИЯ"
+   ============================================ */
+
+/* Затемнение фона */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* Окно модального окна */
+.modal-window {
+    position: relative;
+    width: 68%;
+    max-width: 900px;
+    max-height: 85vh;
+    background: linear-gradient(135deg, #f5f0e6 0%, #e8e4d8 100%);
+    border: 3px solid var(--color-brown-retro);
+    border-radius: 15px;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        inset 0 0 30px rgba(139, 111, 71, 0.1);
+    overflow: hidden;
+    animation: modal-slide-in 0.4s ease-out;
+}
+
+@keyframes modal-slide-in {
+    from {
+        transform: translateY(-50px) scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Кнопка закрытия */
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(135deg, var(--color-orange-muted) 0%, var(--color-orange-dark) 100%);
+    border: 2px solid var(--color-brown-retro);
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-cream);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+    z-index: 10;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    background: linear-gradient(135deg, var(--color-orange-dark) 0%, #a87050 100%);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(224, 159, 125, 0.4);
+}
+
+.modal-close:active {
+    transform: scale(0.95);
+}
+
+/* Контент модального окна */
+.modal-content {
+    padding: 40px 50px 40px 50px;
+    overflow-y: auto;
+    max-height: 85vh;
+}
+
+/* Заголовок */
+.modal-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--color-brown-retro);
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--color-mint-dark);
+}
+
+/* Текст */
+.modal-text {
+    font-family: var(--font-main);
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--color-text-dark);
+}
+
+.modal-text p {
+    margin-bottom: 15px;
+}
+
+.modal-text ul {
+    margin: 20px 0;
+    padding-left: 30px;
+}
+
+.modal-text li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+/* Предупреждение */
+.modal-warning {
+    background-color: rgba(255, 107, 107, 0.1);
+    border-left: 4px solid #ff6b6b;
+    padding: 15px 20px;
+    margin: 25px 0;
+    font-weight: bold;
+    color: #c44;
+}
+
+/* Финальная фраза */
+.modal-final {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-mint-dark);
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 768px) {
+    .modal-window {
+        width: 85%;
+    }
+
+    .modal-content {
+        padding: 30px 35px;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+    }
+
+    .modal-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* Адаптивность для телефонов */
+@media (max-width: 480px) {
+    .modal-window {
+        width: 92%;
+        max-height: 90vh;
+    }
+
+    .modal-content {
+        padding: 25px 20px;
+    }
+
+    .modal-title {
+        font-size: 1.3rem;
+    }
+
+    .modal-close {
+        width: 30px;
+        height: 30px;
+        font-size: 1.3rem;
+        top: 10px;
+        right: 10px;
+    }
+
+    .modal-text {
+        font-size: 0.85rem;
+    }
+
+    .modal-warning {
+        padding: 12px 15px;
+        font-size: 0.85rem;
+    }
+}
