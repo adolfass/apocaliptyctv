@@ -467,29 +467,32 @@
         state.toyClickCount++;
         const currentClick = state.toyClickCount;
         
-        // Очищаем предыдущий таймер
         if (state.toyClickTimer) {
             clearTimeout(state.toyClickTimer);
         }
         
-        // Устанавливаем таймер для определения одинарного/двойного клика
+        const toyElement = elements.toyImage;
+        
         state.toyClickTimer = setTimeout(() => {
             if (currentClick === 1) {
-                // Одинарный клик
-                setToyState(2);
-                playToySound('singleClick');
-                console.log('👆 Одинарный клик по игрушке');
+                console.log("🐔 Одинарный клик");
+                const audio = new Audio("source/ku.mp3");
+                audio.play();
+                toyElement.classList.remove("toy-spiral", "toy-return");
+                void toyElement.offsetWidth;
+                toyElement.classList.add("toy-spiral");
             }
             state.toyClickCount = 0;
-        }, 300); // 300мс для определения двойного клика
+        }, 300);
         
-        // Проверка на двойной клик (если второй клик произошёл быстро)
         if (currentClick === 2) {
             clearTimeout(state.toyClickTimer);
-            // Двойной клик
-            setToyState(3);
-            playToySound('doubleClick');
-            console.log('👆👆 Двойной клик по игрушке');
+            console.log("🐔🐔 Двойной клик");
+            const audio = new Audio("source/kukareku.mp3");
+            audio.play();
+            toyElement.classList.remove("toy-spiral", "toy-return");
+            void toyElement.offsetWidth;
+            toyElement.classList.add("toy-return");
             state.toyClickCount = 0;
         }
     }
